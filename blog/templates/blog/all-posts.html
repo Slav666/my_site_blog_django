@@ -13,7 +13,7 @@
 <h2>My collected posts</h2>
 
 <ul>
-  {% for post in all_posts %}
+  {% for post in object_list %}
   {% include "blog/includes/post.html" %}
   {% endfor %}
 </ul>
