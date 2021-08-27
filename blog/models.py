@@ -4,15 +4,15 @@ from django.core.validators import MinLengthValidator
 
 
 class Tag(models.Model):
-    caption = models.CharField(null=True, max_length=20)
+    caption = models.CharField(max_length=20)
 
     def __str__(self):
         return self.caption
 
 
 class Author(models.Model):
-    first_name = models.CharField(null=True, max_length=100)
-    last_name = models.CharField(null=True, max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email_address = models.EmailField(null=True)
 
     def full_name(self):
@@ -22,13 +22,17 @@ class Author(models.Model):
         return self.full_name()
 
 
+def post_image_path(instance, filename):
+    return f"{instance} {filename}"
+
+
 class Post(models.Model):
-    title = models.CharField(null=True, max_length=50)
-    excerpt = models.CharField(null=True, max_length=200)
-    image = models.ImageField(upload_to="posts", null=True)
+    title = models.CharField(max_length=50)
+    excerpt = models.CharField(max_length=200)
+    image = models.ImageField(upload_to=post_image_path, null=True)
     date = models.DateField(auto_now=True)
-    slug = models.SlugField(null=True, unique=True, db_index=True)
-    content = models.TextField(null=True, validators=[MinLengthValidator(10)])
+    slug = models.SlugField(unique=True, db_index=True)
+    content = models.TextField(validators=[MinLengthValidator(10)])
     author = models.ForeignKey(
         Author, on_delete=models.SET_NULL, null=True, related_name="posts")
     tags = models.ManyToManyField(Tag)
