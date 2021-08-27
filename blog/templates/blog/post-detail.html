@@ -13,8 +13,15 @@
   <h2>{{ post.title }}</h2>
   <div>
     {% for tag in post_tags %}
-    <span>{{ tag.caption }}</span>
+    <span class="tag">{{ tag.caption }}</span>
     {% endfor %}
+  </div>
+  <div id="read-later">
+    <form method="POST" action="{% url 'read-later' %}">
+      {% csrf_token %}
+      <input type="hidden" value="{{ post.id }}" name="post_id">
+      <button>Read Later</button>
+    </form>
   </div>
   <article>
     <img src="{{ post.image.url }}" alt="{{ post.title }}"/>
