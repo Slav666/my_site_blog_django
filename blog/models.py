@@ -23,7 +23,7 @@ class Author(models.Model):
 
 
 def post_image_path(instance, filename):
-    return f"{instance} {filename}"
+    return f"{instance.slug}/{filename}"
 
 
 class Post(models.Model):
